@@ -1,8 +1,64 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
+import Book from './Book'
+
+export const SHELF = {
+  [BooksAPI.READ_STATUS.CURRENTLY_READING]: "Currently Reading",
+  [BooksAPI.READ_STATUS.WANT_TO_READ]: "Want to Read",
+  [BooksAPI.READ_STATUS.READ]: "Read",
+  [BooksAPI.READ_STATUS.NONE]: "None",
+}
 
 class BooksApp extends React.Component {
+
+  static book = {
+    "title": "Needful Things",
+    "authors": [
+        "Stephen King"
+    ],
+    "publisher": "Simon and Schuster",
+    "publishedDate": "2016-05-03",
+    "description": "Now available for the first time in a mass-market premium paperback edition—master storyteller Stephen King presents the classic #1 New York Times bestseller about a mysterious store than can sell you whatever you desire—but not without exacting a terrible price in return. “There are two prices for this. Half…and half. One half is cash. The other is a deed. Do you understand?” The town of Castle Rock, Maine has seen its fair share of oddities over the years, but nothing is a peculiar as the little curio shop that’s just opened for business. Its mysterious proprietor, Leland Gaunt, seems to have something for everyone out on display at Needful Things…interesting items that run the gamut from worthless to priceless. Nothing has a price tag in this place, but everything is certainly for sale. The heart’s desire for any resident of Castle Rock can easily be found among the curiosities…in exchange for a little money and—at the specific request of Leland Gaunt—a whole lot of menace against their fellow neighbors. Everyone in town seems willing to make a deal at Needful Things, but the devil is in the details. And no one takes heed of the little sign handing on the wall: Caveat emptor. In other words, let the buyer beware…",
+    "industryIdentifiers": [
+        {
+            "type": "ISBN_13",
+            "identifier": "9781501143786"
+        },
+        {
+            "type": "ISBN_10",
+            "identifier": "1501143786"
+        }
+    ],
+    "readingModes": {
+        "text": false,
+        "image": false
+    },
+    "pageCount": 960,
+    "printType": "BOOK",
+    "categories": [
+        "Fiction"
+    ],
+    "averageRating": 3.5,
+    "ratingsCount": 28,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.3.1.0.preview.0",
+    "imageLinks": {
+        "smallThumbnail": "http://books.google.com/books/content?id=jAUODAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        "thumbnail": "http://books.google.com/books/content?id=jAUODAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=jAUODAAAQBAJ&printsec=frontcover&dq=king&hl=&cd=8&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=jAUODAAAQBAJ&dq=king&hl=&source=gbs_api",
+    "canonicalVolumeLink": "https://books.google.com/books/about/Needful_Things.html?hl=&id=jAUODAAAQBAJ",
+    "id": "jAUODAAAQBAJ",
+    "shelf": "read"
+}
+
+  
+  
+
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -15,7 +71,9 @@ class BooksApp extends React.Component {
 
   render() {
     return (
+      
       <div className="app">
+        <Book book={BooksApp.book} shelves={BooksApp.SHELF}/>
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
@@ -199,6 +257,7 @@ class BooksApp extends React.Component {
           </div>
         )}
       </div>
+
     )
   }
 }
