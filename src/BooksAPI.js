@@ -17,13 +17,13 @@ export const get = (bookId) =>
     .then(res => res.json())
     .then(data => data.book)
 
-export const READ_STATUS = {
+export const BOOK_SHELF = {
   "READ": "read",
   "WANT_TO_READ": "wantToRead",
   "CURRENTLY_READING": "currentlyReading",
   "NONE": "none",
 }
-Object.freeze(READ_STATUS);
+Object.freeze(BOOK_SHELF);
 
 export const getAll = () =>
   fetch(`${api}/books`, { headers })

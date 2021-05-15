@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { READ_STATUS } from './BooksAPI';
+import { BOOK_SHELF } from './BooksAPI';
 import { SHELF } from './App';
 /**
  * @constructor
@@ -24,16 +24,16 @@ class Book extends Component {
                <div className="book-shelf-changer">
                   <select value={this.props.book.shelf} onChange={this.changeShelf}>
                      <option value="move" disabled>Move to...</option>
-                     {Object.keys(READ_STATUS).map(status => {
-                        let statusValue = READ_STATUS[status];
-                        return <option value={statusValue}>{SHELF[statusValue]}</option>
+                     {Object.keys(BOOK_SHELF).map(status => {
+                        let statusValue = BOOK_SHELF[status];
+                        return <option key={statusValue} value={statusValue}>{SHELF[statusValue]}</option>
                      })}
                   </select>
                </div>
             </div>
             <div className="book-title">{this.props.book.title}</div>
             {this.props.book.authors && (this.props.book.authors.map((author => (
-               <div className="book-authors">{author}</div>
+               <div key={author} className="book-authors">{author}</div>
             ))))}
 
          </div>))
