@@ -1,6 +1,7 @@
 import React from 'react'
-import * as BooksAPI from './BooksAPI'
+import { Route } from 'react-router-dom'
 import './App.css'
+import * as BooksAPI from './BooksAPI'
 import Shelf from './Shelf'
 
 export const SHELF = {
@@ -20,7 +21,6 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
-    showSearchPage: false
   }
 
   putBookInAnotherShelf = (book, shelf) => {
@@ -51,10 +51,10 @@ class BooksApp extends React.Component {
     return (
 
       <div className="app">
-        {this.state.showSearchPage ? (
+        <Route exact path="/search" render={({ history }) => (
           <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+              <button className="close-search" onClick={() => history.push("/")}>Close</button>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -72,7 +72,8 @@ class BooksApp extends React.Component {
               <ol className="books-grid"></ol>
             </div>
           </div>
-        ) : (
+        )} />
+        <Route exact path="/" render={(({ history }) => (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -87,14 +88,13 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button onClick={() => history.push("/search")}>Add a book</button>
             </div>
           </div>
-        )}
+        ))} />
       </div>
-
     )
   }
 }
 
-export default BooksApp
+export default BooksApp;
