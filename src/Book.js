@@ -9,7 +9,11 @@ import { SHELF } from './App';
 class Book extends Component {
    static propTypes = {
       book: PropTypes.object.isRequired,
-      shelves: PropTypes.object.isRequired,
+      handleShelfChange: PropTypes.func.isRequired,
+   }
+
+   changeShelf = (e) => {
+      this.props.handleShelfChange(this.props.book, e.target.value);
    }
 
    render() {
@@ -18,7 +22,7 @@ class Book extends Component {
             <div className="book-top">
                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${this.props.book.imageLinks.thumbnail}")` }}></div>
                <div className="book-shelf-changer">
-                  <select value={this.props.book.shelf}>
+                  <select value={this.props.book.shelf} onChange={this.changeShelf}>
                      <option value="move" disabled>Move to...</option>
                      {Object.keys(READ_STATUS).map(status => {
                         let statusValue = READ_STATUS[status];
