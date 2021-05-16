@@ -2,7 +2,8 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import './App.css'
 import * as BooksAPI from './BooksAPI'
-import Shelf from './Shelf'
+import Library from './Library'
+import SearchBooks from './SearchBooks'
 
 export const SHELF = {
   [BooksAPI.BOOK_SHELF.CURRENTLY_READING]: "Currently Reading",
@@ -23,10 +24,17 @@ class BooksApp extends React.Component {
     books: [],
   }
 
-  putBookInAnotherShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then((shelves) => {
+  handleShelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+    .then((shelves) => {      
       this.setState((oldState) => {
         const books = oldState.books;
+        // Insert book if it didn't exist before in App state
+        let bookFromState = books.filter(bookFromState => bookFromState.id === book.id)[0];
+        if (!bookFromState) {
+          books.push(book);
+        }
+        // Update shelf for all books from BooksAPI.update response
         books.forEach(book => {
           let bookCurrentShelf = BooksAPI.BOOK_SHELF.NONE;
           Object.keys(shelves).forEach(shelf => {
@@ -52,45 +60,10 @@ class BooksApp extends React.Component {
 
       <div className="app">
         <Route exact path="/search" render={({ history }) => (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => history.push("/")}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author" />
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <SearchBooks history={history} handleShelfChange={this.handleShelfChange} libraryBooks={this.state.books}/>
         )} />
         <Route exact path="/" render={(({ history }) => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                {Object.keys(BooksAPI.BOOK_SHELF).filter(status => BooksAPI.BOOK_SHELF[status] !== BooksAPI.BOOK_SHELF.NONE).map(status => {
-                  let statusValue = BooksAPI.BOOK_SHELF[status];
-                  let shelf = SHELF[statusValue];
-                  return (shelf && <Shelf key={shelf} title={shelf} books={this.state.books.filter(book => book.shelf === statusValue)} handleShelfChange={this.putBookInAnotherShelf} />)
-                })}
-              </div>
-            </div>
-            <div className="open-search">
-              <button onClick={() => history.push("/search")}>Add a book</button>
-            </div>
-          </div>
+          <Library history={history} handleShelfChange={this.handleShelfChange} libraryBooks={this.state.books} />
         ))} />
       </div>
     )
