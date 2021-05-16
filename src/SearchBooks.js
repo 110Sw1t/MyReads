@@ -33,11 +33,11 @@ class SearchBooks extends Component {
       } else {
          this.setState({books: [] })
       }
-      this.setState({ query });
    }
 
    updateQuery = (e) => {
       let query = e.target.value;
+      this.setState({ query });
       this.refreshBooks(query);
    }
 

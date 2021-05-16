@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI';
 import Shelf from './Shelf';
 
+/**
+ * @constructor
+ * @description Represent a library containing book shelves
+ */
 class Library extends Component {
 
    static propTypes = {
