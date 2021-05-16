@@ -16,6 +16,6 @@ npm i
 ```
 ## 3- Start the application
 ```bash
-3- npm run start
+npm run start
 ```
 
