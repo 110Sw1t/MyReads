@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { throttle } from 'throttle-debounce';
 import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book';
@@ -19,7 +20,7 @@ class SearchBooks extends Component {
       query: "",
    }
 
-   refreshBooks(query) {
+   refreshBooks = throttle(1000, false, (query) => {
       if (query) {
          BooksAPI.search(query).then((books) => {
             // Check books.length to determine if response is an array of books or not, resp may not be an array
@@ -33,7 +34,7 @@ class SearchBooks extends Component {
       } else {
          this.setState({books: [] })
       }
-   }
+   })
 
    updateQuery = (e) => {
       let query = e.target.value;
